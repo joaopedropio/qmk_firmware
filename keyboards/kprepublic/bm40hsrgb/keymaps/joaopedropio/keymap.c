@@ -15,17 +15,29 @@
  */
 #include QMK_KEYBOARD_H
 
-// Left-hand home row mods
+// Left-hand home row mods - Base Layer
 #define GUI_A   LGUI_T(KC_A)
 #define ALT_R   LALT_T(KC_R)
 #define CTRL_S  LCTL_T(KC_S)
 #define SHIFT_T LSFT_T(KC_T)
 
-// Right-hand home row mods
+// Right-hand home row mods  - Base Layer
 #define SHIFT_N RSFT_T(KC_N)
 #define CTRL_E  RCTL_T(KC_E)
 #define ALT_I   LALT_T(KC_I)
 #define GUI_O   RGUI_T(KC_O)
+
+// Left-hand home row mods - Layer 2
+#define GUI_F5   LGUI_T(KC_F5)
+#define ALT_F6   LALT_T(KC_F6)
+#define CTRL_F7  LCTL_T(KC_F7)
+#define SHIFT_F8 LSFT_T(KC_F8)
+
+// Right-hand home row mods - Layer 2
+#define S_LBRC, RSFT_T(KC_LBRC)
+#define C_RBRC, RCTL_T(KC_RBRC)
+#define A_LCBR, LALT_T(KC_LCBR)
+#define G_RCBR, RGUI_T(KC_RCBR)
 
 // Layers
 #define LT2_SPC LT(2,KC_SPC)
@@ -64,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* Symbols
      * ,-----------------------------------------------------------------------------------.
-     * |  1   |   2  |   3  |   4  |   5  |      |      |   J  |   L  |   U  |   Y  |   ;  |
+     * |  1   |   2  |   3  |   4  |   5  |      |      |   6  |   7  |   8  |   9  |   0  |
      * |------+------+------+------+------+------+------+------+------+------+------+------|
      * |  !   |   @  |   #  |   $  |   %  |      |      |   ^  |   &  |   *  |   (  |   )  |
      * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -94,10 +106,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
 
     [_PROGRAMMING] = LAYOUT_planck_mit(
-        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_PSCR, _______, _______, KC_GRV,  KC_QUOT, KC_DQUO, KC_BSLS, KC_PIPE,
-        KC_F5,   KC_F6,   KC_F7,   KC_F8,   _______, _______, _______, KC_TILD, KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR,
-        KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______, _______, _______, KC_MINS, KC_UNDS, KC_EQL,  KC_PLUS,
-        _______, _______, _______, _______, _______,      _______,     MO(3),   _______, _______, _______, _______
+        KC_F1,   KC_F2,   KC_F3,   KC_F4,    KC_PSCR, _______, _______, KC_GRV,  KC_QUOT, KC_DQUO, KC_BSLS, KC_PIPE,
+        GUI_F5,  ALT_F6,  CTRL_F7, SHIFT_F8, _______, _______, _______, KC_TILD, S_LBRC,  C_RBRC,  A_LCBR,  G_RCBR,
+        KC_F9,   KC_F10,  KC_F11,  KC_F12,   _______, _______, _______, _______, KC_MINS, KC_UNDS, KC_EQL,  KC_PLUS,
+        _______, _______, _______, _______,  _______,      _______,     MO(3),   _______, _______, _______, _______
     ),
 
     /* System
