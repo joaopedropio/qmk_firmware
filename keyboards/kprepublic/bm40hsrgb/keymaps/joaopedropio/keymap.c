@@ -34,10 +34,10 @@
 #define SHIFT_F8 LSFT_T(KC_F8)
 
 // Right-hand home row mods - Layer 2
-#define S_LBRC, RSFT_T(KC_LBRC)
-#define C_RBRC, RCTL_T(KC_RBRC)
-#define A_LCBR, LALT_T(KC_LCBR)
-#define G_RCBR, RGUI_T(KC_RCBR)
+#define S_LBRC RSFT_T(KC_LBRC)
+#define C_RBRC RCTL_T(KC_RBRC)
+#define A_LCBR LALT_T(KC_LCBR)
+#define G_RCBR RGUI_T(KC_RCBR)
 
 // Layers
 #define LT2_SPC LT(2,KC_SPC)
