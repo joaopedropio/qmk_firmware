@@ -1,6 +1,6 @@
 # My personal keymap
 
-I built this keymap to learn a new layout (whick is Colemak-DHm), get used to ortholinear keyboards and eventually switch to a split keyboard like Gergoplex. That's why this layout uses just 36 keys. Heavily inspired by [Miryoku](https://github.com/manna-harbour/qmk_firmware/blob/miryoku/users/manna-harbour_miryoku/miryoku.org#miryoku-) by *manna-harbour*.
+I built this keymap to learn a new layout (which is Colemak-DHm), get used to ortholinear keyboards and eventually switch to a split keyboard like Gergoplex. That's why this layout uses just 36 keys. Heavily inspired by [Miryoku](https://github.com/manna-harbour/qmk_firmware/blob/miryoku/users/manna-harbour_miryoku/miryoku.org#miryoku-) by *manna-harbour*.
 
 # (Un)used keys of the BM40
 
