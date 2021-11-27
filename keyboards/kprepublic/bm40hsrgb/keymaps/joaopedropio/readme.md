@@ -8,7 +8,7 @@ I built this keymap to learn a new layout (whick is Colemak-DHm), get used to or
 
 # Main Keymap
 
-To simplify things up, I use only 3 layers (besides the gaming layer which I'll talk more about later): Base, Lower (numbers, "simple" symbols and arrows) and Raise (F keys and "programming" symbols). Every layer has home row mods (especifically, [GACS](https://precondition.github.io/home-row-mods#gacs)).
+To simplify things up, I use only 3 layers (besides the gaming layer which I'll talk more about later): Base, Raise (numbers, "simple" symbols and arrows) and Lower (F keys and "programming" symbols). Every layer has home row mods (especifically, [GACS](https://precondition.github.io/home-row-mods#gacs)).
 
 ![Colemak-DHm Base Layer](https://raw.githubusercontent.com/joaopedropio/joaopedropio.github.io/master/base.png)
 
