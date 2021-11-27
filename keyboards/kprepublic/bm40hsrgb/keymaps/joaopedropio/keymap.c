@@ -27,6 +27,18 @@
 #define ALT_I   LALT_T(KC_I)
 #define GUI_O   RGUI_T(KC_O)
 
+// Left-hand home row mods - Layer 1
+#define GU_EXLM LGUI_T(KC_EXLM)
+#define AL_AT   LALT_T(KC_AT)
+#define CT_HASH LCTL_T(KC_HASH)
+#define SH_DLR  LSFT_T(KC_DLR)
+
+// Right-hand home row mods - Layer 1
+#define SH_AMPR RSFT_T(KC_AMPR)
+#define CT_ASTR RCTL_T(KC_ASTR)
+#define AL_LPRN LALT_T(KC_LPRN)
+#define GU_RPRN RGUI_T(KC_RPRN)
+
 // Left-hand home row mods - Layer 2
 #define GUI_F5   LGUI_T(KC_F5)
 #define ALT_F6   LALT_T(KC_F6)
@@ -87,8 +99,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
 
     [_SYMBOLS] = LAYOUT_planck_mit(
-        KC_1,    KC_2,    KC_3,    KC_4,   KC_5,     _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
-        KC_EXLM, KC_AT,   KC_HASH, KC_DLR, KC_PERC,  _______, _______, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
+        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
+        GU_EXLM, AL_AT,   CT_HASH, SH_DLR,  KC_PERC, _______, _______, KC_CIRC, SH_AMPR, CT_ASTR, AL_LPRN, GU_RPRN,
         _______, _______, _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,
         _______, _______, _______, _______, MO(3),        _______,     _______, _______, _______, _______, _______
     ),
