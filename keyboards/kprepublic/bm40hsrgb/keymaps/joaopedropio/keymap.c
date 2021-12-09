@@ -15,6 +15,16 @@
  */
 #include QMK_KEYBOARD_H
 
+enum layers {
+  _COLEMAK_DMH,
+  _SYMBOLS,
+  _PROGRAMMING,
+  _SYSTEM,
+  _GAMER,
+  _GAMER_NUMBERS,
+  _RGB
+};
+
 // Left-hand home row mods - Base Layer
 #define GUI_A   LGUI_T(KC_A)
 #define ALT_R   LALT_T(KC_R)
@@ -28,16 +38,16 @@
 #define GUI_O   RGUI_T(KC_O)
 
 // Left-hand home row mods - Layer 1
-#define GU_EXLM LGUI_T(KC_EXLM)
-#define AL_AT   LALT_T(KC_AT)
-#define CT_HASH LCTL_T(KC_HASH)
-#define SH_DLR  LSFT_T(KC_DLR)
+#define LGUI_1 LGUI_T(KC_1)
+#define LALT_2 LALT_T(KC_2)
+#define LCTL_3 LCTL_T(KC_3)
+#define LSFT_4 LSFT_T(KC_4)
 
 // Right-hand home row mods - Layer 1
-#define SH_AMPR RSFT_T(KC_AMPR)
-#define CT_ASTR RCTL_T(KC_ASTR)
-#define AL_LPRN LALT_T(KC_LPRN)
-#define GU_RPRN RGUI_T(KC_RPRN)
+#define LSFT_7 LSFT_T(KC_7)
+#define LCTL_8 LCTL_T(KC_8)
+#define LALT_9 LALT_T(KC_9)
+#define LGUI_0 LGUI_T(KC_0)
 
 // Left-hand home row mods - Layer 2
 #define GUI_F5   LGUI_T(KC_F5)
@@ -54,15 +64,7 @@
 // Layers
 #define LT2_SPC LT(2,KC_SPC)
 #define LT1_ENT LT(1,KC_ENT)
-
-enum layers {
-  _COLEMAK_DMH,
-  _SYMBOLS,
-  _PROGRAMMING,
-  _SYSTEM,
-  _GAMER,
-  _GAMER_NUMBERS
-};
+#define RGBLYR  MO(_RGB)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -82,15 +84,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_Q,    KC_W,    KC_F,   KC_P,    KC_B,    XXXXXXX, XXXXXXX, KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN,
         GUI_A,   ALT_R,   CTRL_S, SHIFT_T, KC_G,    XXXXXXX, XXXXXXX, KC_M,    SHIFT_N, CTRL_E,  ALT_I,   GUI_O,
         KC_Z,    KC_X,    KC_C,   KC_D,    KC_V,    XXXXXXX, XXXXXXX, KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH,
-        XXXXXXX, XXXXXXX, KC_TAB, KC_ESC,  LT2_SPC,      XXXXXXX,     LT1_ENT, KC_BSPC, KC_DEL,  XXXXXXX, XXXXXXX
+        XXXXXXX, XXXXXXX, KC_TAB, KC_ESC,  LT2_SPC,      XXXXXXX,     LT1_ENT, KC_BSPC, KC_DEL,  XXXXXXX, RGBLYR
     ),
 
 
     /* Symbols
      * ,-----------------------------------------------------------------------------------.
-     * |  1   |   2  |   3  |   4  |   5  |      |      |   6  |   7  |   8  |   9  |   0  |
-     * |------+------+------+------+------+------+------+------+------+------+------+------|
      * |  !   |   @  |   #  |   $  |   %  |      |      |   ^  |   &  |   *  |   (  |   )  |
+     * |------+------+------+------+------+------+------+------+------+------+------+------|
+     * |  1   |   2  |   3  |   4  |   5  |      |      |   6  |   7  |   8  |   9  |   0  |
      * |------+------+------+------+------+------+------+------+------+------+------+------|
      * |      |      |      |      |      |      |      |      | LEFT | DOWN |  UP  |RIGHT |
      * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -99,8 +101,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
 
     [_SYMBOLS] = LAYOUT_planck_mit(
-        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______, _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
-        GU_EXLM, AL_AT,   CT_HASH, SH_DLR,  KC_PERC, _______, _______, KC_CIRC, SH_AMPR, CT_ASTR, AL_LPRN, GU_RPRN,
+        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, _______, _______, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
+        LGUI_1,  LALT_2,  LCTL_3,  LSFT_4,  KC_5,    _______, _______, KC_6,    LSFT_7,  LCTL_8,  LALT_9,  LGUI_0,
         _______, _______, _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,
         _______, _______, _______, _______, MO(3),        _______,     _______, _______, _______, _______, _______
     ),
@@ -180,5 +182,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,       _______,    _______, _______, _______, _______, _______
+    ),
+
+    /* RGB
+    ┏━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┓
+    ┃         ┃         ┃         ┃         ┃         ┃ RGBSAT- ┃ RGBSAT+ ┃RGBTOGGLE┃RGBMODE- ┃RGBMODE+ ┃ COLOUR -┃ COLOUR +┃
+    ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
+    ┃RGBBRGHT-┃RGBBRGHT+┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃
+    ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
+    ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃
+    ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┻━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
+    ┃         ┃         ┃         ┃         ┃         ┃                   ┃         ┃         ┃         ┃         ┃         ┃
+    ┗━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┛
+    */
+
+    [_RGB] = LAYOUT_planck_mit(
+		_______, _______, _______, _______, _______, RGB_SAD, RGB_SAI, RGB_TOG, RGB_MODE_REVERSE, RGB_MODE_FORWARD, RGB_HUD, RGB_HUI,
+		RGB_VAD, RGB_VAI, _______, _______, _______, _______, _______, _______, _______,          _______,          _______, _______,
+		_______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          _______, _______,
+		_______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          _______
     )
 };
