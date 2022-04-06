@@ -13,6 +13,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #include QMK_KEYBOARD_H
 
 enum layers {
@@ -76,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
     ┃    Z    ┃    X    ┃    C    ┃    D    ┃    V    ┃         ┃         ┃    K    ┃    H    ┃    ,    ┃    .    ┃    /    ┃
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┻━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
-    ┃         ┃         ┃   TAB   ┃   ESC   ┃LT2/SPACE┃                   ┃LT1/ENTER┃   BSCP  ┃   DEL   ┃         ┃RGB_LAYER┃
+    ┃RGB_LAYER┃         ┃   TAB   ┃   ESC   ┃LT2/SPACE┃                   ┃LT1/ENTER┃   BSCP  ┃   DEL   ┃         ┃  GAMER  ┃
     ┗━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┛
     */
 
@@ -84,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_Q,    KC_W,    KC_F,   KC_P,    KC_B,    XXXXXXX, XXXXXXX, KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN,
         GUI_A,   ALT_R,   CTRL_S, SHIFT_T, KC_G,    XXXXXXX, XXXXXXX, KC_M,    SHIFT_N, CTRL_E,  ALT_I,   GUI_O,
         KC_Z,    KC_X,    KC_C,   KC_D,    KC_V,    XXXXXXX, XXXXXXX, KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH,
-        XXXXXXX, XXXXXXX, KC_TAB, KC_ESC,  LT2_SPC,      XXXXXXX,     LT1_ENT, KC_BSPC, KC_DEL,  XXXXXXX, RGBLYR
+        RGBLYR,  XXXXXXX, KC_TAB, KC_ESC,  LT2_SPC,      XXXXXXX,     LT1_ENT, KC_BSPC, KC_DEL,  XXXXXXX, TO(_GAMER)
     ),
 
     /* Symbols (This layer has mode taps. This draw don't show it for clarity)
@@ -103,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, _______, _______, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
         LGUI_1,  LALT_2,  LCTL_3,  LSFT_4,  KC_5,    _______, _______, KC_6,    LSFT_7,  LCTL_8,  LALT_9,  LGUI_0,
         _______, _______, _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,
-        _______, _______, _______, _______, MO(3),        _______,     _______, _______, _______, _______, _______
+        _______, _______, _______, _______, MO(_SYSTEM),  _______,     _______, _______, _______, _______, _______
     ),
 
     /* Programming (This layer has mode taps. This draw don't show it for clarity)
@@ -122,7 +123,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_F1,   KC_F2,   KC_F3,   KC_F4,    KC_PSCR, _______, _______, KC_DQUO, KC_LCBR, KC_RCBR, KC_BSLS, KC_PIPE,
         GUI_F5,  ALT_F6,  CTRL_F7, SHIFT_F8, _______, _______, _______, KC_TILD, S_LBRC,  C_RBRC,  A_GRV,   G_QUOT,
         KC_F9,   KC_F10,  KC_F11,  KC_F12,   _______, _______, _______, _______, KC_MINS, KC_UNDS, KC_EQL,  KC_PLUS,
-        _______, _______, _______, _______,  _______,      _______,     MO(3),   _______, _______, _______, _______
+        _______, _______, _______, _______,  _______,      _______,     MO(_SYSTEM),   _______, _______, _______, _______
     ),
 
     /* System
@@ -131,7 +132,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
     ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
-    ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃  TO(4)  ┃
+    ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┻━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
     ┃         ┃         ┃         ┃         ┃         ┃                   ┃         ┃         ┃         ┃         ┃         ┃
     ┗━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┛
@@ -140,7 +141,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_SYSTEM] = LAYOUT_planck_mit(
         _______, _______, _______, _______, _______, _______, _______, RESET,   _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, TO(4),
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
@@ -153,7 +154,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
     ┃  SHIFT  ┃    Z    ┃    X    ┃    C    ┃    V    ┃    B    ┃    N    ┃    M    ┃    ,    ┃    .    ┃    /    ┃  ENTER  ┃
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┻━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
-    ┃   CTRL  ┃         ┃         ┃  ALT    ┃   MO(5) ┃       SPACE       ┃   GUI   ┃  TO(0)  ┃         ┃         ┃         ┃
+    ┃   CTRL  ┃         ┃         ┃  ALT    ┃   MO(5) ┃       SPACE       ┃         ┃         ┃         ┃         ┃   BASE  ┃
     ┗━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┛
     */
 
@@ -161,14 +162,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,  KC_T,  KC_Y, KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
         KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,  KC_G,  KC_H, KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,  KC_B,  KC_N, KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-        KC_LCTL, XXXXXXX, XXXXXXX, KC_LALT, MO(5),    KC_SPC,   KC_LGUI, TO(0),   XXXXXXX, XXXXXXX, XXXXXXX
+        KC_LCTL, XXXXXXX, XXXXXXX, KC_LALT, MO(_GAMER_NUMBERS),    KC_SPC,  XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX,  TO(_COLEMAK_DMH)
     ),
 
     /* Gamer Numbers
     ┏━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┓
-    ┃         ┃    1    ┃    2    ┃    3    ┃    4    ┃    5    ┃    6    ┃    7    ┃    8    ┃    9    ┃    0    ┃         ┃
+    ┃         ┃    1    ┃    2    ┃    3    ┃    4    ┃    5    ┃         ┃         ┃         ┃         ┃         ┃         ┃
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
-    ┃         ┃    F1   ┃    F2   ┃    F3   ┃    F4   ┃    F5   ┃    F6   ┃    F7   ┃    F8   ┃    F9   ┃   F10   ┃         ┃
+    ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
     ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃         ┃
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┻━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
@@ -177,8 +178,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     */
 
 	[_GAMER_NUMBERS] = LAYOUT_planck_mit(
-        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
-        _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F1,
+        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,       _______,    _______, _______, _______, _______, _______
     ),
@@ -203,16 +204,49 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
+static bool is_w_pressed = false;
+static uint8_t last_layer = _COLEMAK_DMH;
+static bool crazy_layer_shift = false;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (keycode == KC_2) {
+        if (crazy_layer_shift && record->event.pressed == false) {
+            unregister_code(KC_W);
+            crazy_layer_shift = false;
+        }
+        is_w_pressed = record->event.pressed;
+    }
+    // if (keycode == KC_W) {
+    //     if (crazy_layer_shift && record->event.pressed == false) {
+    //         unregister_code(KC_2);
+    //         crazy_layer_shift = false;
+    //     }
+    //     is_w_pressed = record->event.pressed;
+    // }
+    return true;
+}
+
 layer_state_t layer_state_set_user(layer_state_t state) {
     uint8_t layer = biton32(state);
     switch (layer) {
         case _GAMER:
         case _GAMER_NUMBERS:
+            rgblight_enable();
             rgblight_mode(22);
             break;
         default:
-            rgblight_mode(25);
+            rgblight_disable();
     }
-
+    if (layer == _GAMER && last_layer == _GAMER_NUMBERS && is_w_pressed) {
+        unregister_code(KC_2);
+        register_code(KC_W);
+        crazy_layer_shift = true;
+    }
+    // if (layer == _GAMER_NUMBERS && last_layer == _GAMER && is_w_pressed) {
+    //     unregister_code(KC_W);
+    //     register_code(KC_2);
+    //     crazy_layer_shift = true;
+    // }
+    last_layer = layer;
     return state;
 }
