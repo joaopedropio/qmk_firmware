@@ -10,11 +10,15 @@
 
 Make example for this keyboard (after setting up your build environment):
 
-    make bluebell/swoop:default
+    make bluebell/swoop:joaopedropio
 
 Flashing example for this keyboard:
 
-    make bluebell/swoop:default:avrdude-split-right
+    make bluebell/swoop:joaopedropio:avrdude-split-right
+
+To use RP2040 instead:
+
+    qmk flash -c -kb bluebell/swoop -km joaopedropio -bl uf2-split-left -e CONVERT_TO=helios
 
 See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_tools) and the [make instructions](https://docs.qmk.fm/#/getting_started_make_guide) for more information. Brand new to QMK? Start with our [Complete Newbs Guide](https://docs.qmk.fm/#/newbs).
 
