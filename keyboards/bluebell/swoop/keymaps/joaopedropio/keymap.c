@@ -192,11 +192,37 @@ combo_t key_combos[] = {
 
 
 
-#define FALL_DURATION 500 // how long each time the piece moves down in ms
+#define FALL_DURATION 200 // how long each time the piece moves down in ms
 #define BOARD_WIDTH 8
 #define BOARD_HEIGHT 32
 #define ORIENTATIONS 4
 #define PIXEL_SIZE 4
+
+typedef struct {
+    uint8_t x;
+    uint8_t y;
+} coordinate;
+
+typedef struct {
+    coordinate coordinates[4];
+} spin;
+
+typedef struct {
+    int8_t previous_x;
+    int8_t previous_y;
+    int8_t x;
+    int8_t y;
+    uint8_t previous_spin;
+    uint8_t current_spin;
+    spin spins[4];
+} block;
+
+enum colided_orientation {
+    NONE,
+    BLOCK,
+    WALL,
+    BOTTOM
+};
 
 enum block_orientations {
     UP,
@@ -217,29 +243,21 @@ enum block_types {
     BLOCK_TYPES_LENGTH
 };
 
+bool initialized = false;
+
+uint32_t fall_timer = 0;
+block current_block;
+bool change_spin = false;
+uint8_t current_block_index = 0;
+
 /* Direction */
 bool move_right = false;
-bool move_up = false;
 bool move_down = false;
 bool move_left = false;
 
 uint32_t last_fall_time = 0;
-bool board[BOARD_HEIGHT][BOARD_WIDTH];
+bool board[BOARD_WIDTH][BOARD_HEIGHT];
 
-typedef struct {
-    uint8_t x;
-    uint8_t y;
-} coordinate;
-
-typedef struct {
-    coordinate coordinates[4];
-} spin;
-
-typedef struct {
-    uint8_t x;
-    uint8_t y;
-    spin spins[2];
-} block;
 
 static coordinate new_coordinate(uint8_t x, uint8_t y) {
     coordinate c;
@@ -250,68 +268,525 @@ static coordinate new_coordinate(uint8_t x, uint8_t y) {
 
 static block i_block(void) {
     spin spin_0;
+    spin spin_1;
+    spin spin_2;
+    spin spin_3;
     spin_0.coordinates[0] = new_coordinate(0, 2);
     spin_0.coordinates[1] = new_coordinate(1, 2);
     spin_0.coordinates[2] = new_coordinate(2, 2);
     spin_0.coordinates[3] = new_coordinate(3, 2);
-
-    spin spin_1;
     spin_1.coordinates[0] = new_coordinate(2, 0);
     spin_1.coordinates[1] = new_coordinate(2, 1);
     spin_1.coordinates[2] = new_coordinate(2, 2);
     spin_1.coordinates[3] = new_coordinate(2, 3);
+    spin_2.coordinates[0] = new_coordinate(0, 1);
+    spin_2.coordinates[1] = new_coordinate(1, 1);
+    spin_2.coordinates[2] = new_coordinate(2, 1);
+    spin_2.coordinates[3] = new_coordinate(3, 1);
+    spin_3.coordinates[0] = new_coordinate(1, 0);
+    spin_3.coordinates[1] = new_coordinate(1, 1);
+    spin_3.coordinates[2] = new_coordinate(1, 2);
+    spin_3.coordinates[3] = new_coordinate(1, 3);
 
     block b;
     b.spins[0] = spin_0;
     b.spins[1] = spin_1;
+    b.spins[2] = spin_2;
+    b.spins[3] = spin_3;
+    b.x = 0;
+    b.y = 0;
+    b.previous_x = 0;
+    b.previous_y = 0;
+    b.previous_spin = 0;
+    b.current_spin = 0;
 
     return b;
 }
 
-static void render_pixel(uint8_t x, uint8_t y, bool on) {
-    int initial_y = y * PIXEL_SIZE;
-    int initial_x = x * PIXEL_SIZE;
-    for (int i = initial_y; i < initial_y + PIXEL_SIZE; ++i)
-    {
-        for (int j = initial_x; j < initial_x + PIXEL_SIZE; ++j)
-        {
-            oled_write_pixel(i, j, on);
+static block j_block(void) {
+    spin spin_0;
+    spin spin_1;
+    spin spin_2;
+    spin spin_3;
+    spin_0.coordinates[0] = new_coordinate(0, 1);
+    spin_0.coordinates[1] = new_coordinate(1, 1);
+    spin_0.coordinates[2] = new_coordinate(2, 1);
+    spin_0.coordinates[3] = new_coordinate(0, 2);
+    spin_1.coordinates[0] = new_coordinate(1, 0);
+    spin_1.coordinates[1] = new_coordinate(1, 1);
+    spin_1.coordinates[2] = new_coordinate(1, 2);
+    spin_1.coordinates[3] = new_coordinate(2, 2);
+    spin_2.coordinates[0] = new_coordinate(0, 1);
+    spin_2.coordinates[1] = new_coordinate(1, 1);
+    spin_2.coordinates[2] = new_coordinate(2, 1);
+    spin_2.coordinates[3] = new_coordinate(2, 0);
+    spin_3.coordinates[0] = new_coordinate(1, 0);
+    spin_3.coordinates[1] = new_coordinate(1, 1);
+    spin_3.coordinates[2] = new_coordinate(1, 2);
+    spin_3.coordinates[3] = new_coordinate(0, 0);
+
+    block b;
+    b.spins[0] = spin_0;
+    b.spins[1] = spin_1;
+    b.spins[2] = spin_2;
+    b.spins[3] = spin_3;
+    b.x = 0;
+    b.y = 0;
+    b.previous_x = 0;
+    b.previous_y = 0;
+    b.previous_spin = 0;
+    b.current_spin = 0;
+
+    return b;
+}
+
+static block l_block(void) {
+    spin spin_0;
+    spin spin_1;
+    spin spin_2;
+    spin spin_3;
+    spin_0.coordinates[0] = new_coordinate(0, 1);
+    spin_0.coordinates[1] = new_coordinate(1, 1);
+    spin_0.coordinates[2] = new_coordinate(2, 1);
+    spin_0.coordinates[3] = new_coordinate(2, 2);
+    spin_1.coordinates[0] = new_coordinate(1, 0);
+    spin_1.coordinates[1] = new_coordinate(1, 1);
+    spin_1.coordinates[2] = new_coordinate(1, 2);
+    spin_1.coordinates[3] = new_coordinate(2, 0);
+    spin_2.coordinates[0] = new_coordinate(0, 1);
+    spin_2.coordinates[1] = new_coordinate(1, 1);
+    spin_2.coordinates[2] = new_coordinate(2, 1);
+    spin_2.coordinates[3] = new_coordinate(0, 0);
+    spin_3.coordinates[0] = new_coordinate(1, 0);
+    spin_3.coordinates[1] = new_coordinate(1, 1);
+    spin_3.coordinates[2] = new_coordinate(1, 2);
+    spin_3.coordinates[3] = new_coordinate(0, 2);
+
+    block b;
+    b.spins[0] = spin_0;
+    b.spins[1] = spin_1;
+    b.spins[2] = spin_2;
+    b.spins[3] = spin_3;
+    b.x = 0;
+    b.y = 0;
+    b.previous_x = 0;
+    b.previous_y = 0;
+    b.previous_spin = 0;
+    b.current_spin = 0;
+
+    return b;
+}
+
+static block o_block(void) {
+    spin spin_0;
+    spin spin_1;
+    spin spin_2;
+    spin spin_3;
+    spin_0.coordinates[0] = new_coordinate(1, 1);
+    spin_0.coordinates[1] = new_coordinate(2, 1);
+    spin_0.coordinates[2] = new_coordinate(1, 2);
+    spin_0.coordinates[3] = new_coordinate(2, 2);
+    spin_1.coordinates[0] = new_coordinate(1, 1);
+    spin_1.coordinates[1] = new_coordinate(2, 1);
+    spin_1.coordinates[2] = new_coordinate(1, 2);
+    spin_1.coordinates[3] = new_coordinate(2, 2);
+    spin_2.coordinates[0] = new_coordinate(1, 1);
+    spin_2.coordinates[1] = new_coordinate(2, 1);
+    spin_2.coordinates[2] = new_coordinate(1, 2);
+    spin_2.coordinates[3] = new_coordinate(2, 2);
+    spin_3.coordinates[0] = new_coordinate(1, 1);
+    spin_3.coordinates[1] = new_coordinate(2, 1);
+    spin_3.coordinates[2] = new_coordinate(1, 2);
+    spin_3.coordinates[3] = new_coordinate(2, 2);
+
+    block b;
+    b.spins[0] = spin_0;
+    b.spins[1] = spin_1;
+    b.spins[2] = spin_2;
+    b.spins[3] = spin_3;
+    b.x = 0;
+    b.y = 0;
+    b.previous_x = 0;
+    b.previous_y = 0;
+    b.previous_spin = 0;
+    b.current_spin = 0;
+
+    return b;
+}
+
+static block s_block(void) {
+    spin spin_0;
+    spin spin_1;
+    spin spin_2;
+    spin spin_3;
+    spin_0.coordinates[0] = new_coordinate(0, 1);
+    spin_0.coordinates[1] = new_coordinate(1, 1);
+    spin_0.coordinates[2] = new_coordinate(1, 2);
+    spin_0.coordinates[3] = new_coordinate(2, 2);
+    spin_1.coordinates[0] = new_coordinate(1, 1);
+    spin_1.coordinates[1] = new_coordinate(1, 2);
+    spin_1.coordinates[2] = new_coordinate(2, 0);
+    spin_1.coordinates[3] = new_coordinate(2, 1);
+    spin_2.coordinates[0] = new_coordinate(0, 0);
+    spin_2.coordinates[1] = new_coordinate(1, 0);
+    spin_2.coordinates[2] = new_coordinate(1, 1);
+    spin_2.coordinates[3] = new_coordinate(2, 1);
+    spin_3.coordinates[0] = new_coordinate(1, 0);
+    spin_3.coordinates[1] = new_coordinate(1, 1);
+    spin_3.coordinates[2] = new_coordinate(0, 1);
+    spin_3.coordinates[3] = new_coordinate(0, 2);
+
+    block b;
+    b.spins[0] = spin_0;
+    b.spins[1] = spin_1;
+    b.spins[2] = spin_2;
+    b.spins[3] = spin_3;
+    b.x = 0;
+    b.y = 0;
+    b.previous_x = 0;
+    b.previous_y = 0;
+    b.previous_spin = 0;
+    b.current_spin = 0;
+
+    return b;
+}
+
+static block t_block(void) {
+    spin spin_0;
+    spin spin_1;
+    spin spin_2;
+    spin spin_3;
+    spin_0.coordinates[0] = new_coordinate(0, 1);
+    spin_0.coordinates[1] = new_coordinate(1, 1);
+    spin_0.coordinates[2] = new_coordinate(2, 1);
+    spin_0.coordinates[3] = new_coordinate(1, 2);
+    spin_1.coordinates[0] = new_coordinate(1, 0);
+    spin_1.coordinates[1] = new_coordinate(1, 1);
+    spin_1.coordinates[2] = new_coordinate(1, 2);
+    spin_1.coordinates[3] = new_coordinate(2, 1);
+    spin_2.coordinates[0] = new_coordinate(0, 1);
+    spin_2.coordinates[1] = new_coordinate(1, 1);
+    spin_2.coordinates[2] = new_coordinate(2, 1);
+    spin_2.coordinates[3] = new_coordinate(1, 0);
+    spin_3.coordinates[0] = new_coordinate(1, 0);
+    spin_3.coordinates[1] = new_coordinate(1, 1);
+    spin_3.coordinates[2] = new_coordinate(1, 2);
+    spin_3.coordinates[3] = new_coordinate(0, 1);
+
+    block b;
+    b.spins[0] = spin_0;
+    b.spins[1] = spin_1;
+    b.spins[2] = spin_2;
+    b.spins[3] = spin_3;
+    b.x = 0;
+    b.y = 0;
+    b.previous_x = 0;
+    b.previous_y = 0;
+    b.previous_spin = 0;
+    b.current_spin = 0;
+
+    return b;
+}
+
+static block z_block(void) {
+    spin spin_0;
+    spin spin_1;
+    spin spin_2;
+    spin spin_3;
+    spin_0.coordinates[0] = new_coordinate(0, 2);
+    spin_0.coordinates[1] = new_coordinate(1, 2);
+    spin_0.coordinates[2] = new_coordinate(1, 1);
+    spin_0.coordinates[3] = new_coordinate(2, 1);
+    spin_1.coordinates[0] = new_coordinate(1, 0);
+    spin_1.coordinates[1] = new_coordinate(1, 1);
+    spin_1.coordinates[2] = new_coordinate(2, 1);
+    spin_1.coordinates[3] = new_coordinate(2, 2);
+    spin_2.coordinates[0] = new_coordinate(0, 1);
+    spin_2.coordinates[1] = new_coordinate(1, 1);
+    spin_2.coordinates[2] = new_coordinate(1, 0);
+    spin_2.coordinates[3] = new_coordinate(2, 0);
+    spin_3.coordinates[0] = new_coordinate(0, 0);
+    spin_3.coordinates[1] = new_coordinate(0, 1);
+    spin_3.coordinates[2] = new_coordinate(1, 1);
+    spin_3.coordinates[3] = new_coordinate(1, 2);
+
+    block b;
+    b.spins[0] = spin_0;
+    b.spins[1] = spin_1;
+    b.spins[2] = spin_2;
+    b.spins[3] = spin_3;
+    b.x = 0;
+    b.y = 0;
+    b.previous_x = 0;
+    b.previous_y = 0;
+    b.previous_spin = 0;
+    b.current_spin = 0;
+
+    return b;
+}
+
+static void render_pixel(int8_t x, uint8_t y, bool on) {
+    uint8_t initial_y = y * PIXEL_SIZE;
+    uint8_t initial_x = x * PIXEL_SIZE;
+    for (uint8_t i = initial_y; i < initial_y + PIXEL_SIZE; ++i) {
+        for (uint8_t j = initial_x; j < initial_x + PIXEL_SIZE; ++j) {
+            oled_write_pixel(j, i, on);
         }
     }
 }
 
-static void render_block(block b) {
-    spin s = b.spins[0];
-    for (int i = 0; i < 4; i++) {
-        render_pixel(s.coordinates[i].x, s.coordinates[i].y, true);
+static void draw_block(void) {
+    spin s = current_block.spins[current_block.current_spin];
+    for (uint8_t i = 0; i < 4; i++) {
+        render_pixel(current_block.x + s.coordinates[i].x, current_block.y + s.coordinates[i].y, true);
     }
 }
 
-static void quadriculado(void) {
-    for (int y = 0; y < BOARD_HEIGHT; ++y) {
-        for (int x = 0; x < BOARD_WIDTH; ++y) { 
-            if (y % 2 == 0) {
-                if (x % 2 == 0) {
-                    render_pixel(x, y, true);
-                } else {
-                    render_pixel(x, y, false);
-                }
-            } else {
-                if (x % 2 == 0) {
-                    render_pixel(x, y, false);
-                } else {
-                    render_pixel(x, y, true);
-                }
+static void clear_block(void) {
+    spin s = current_block.spins[current_block.previous_spin];
+    for (uint8_t i = 0; i < 4; i++) {
+        render_pixel(current_block.previous_x + s.coordinates[i].x, current_block.previous_y + s.coordinates[i].y, false);
+    }
+}
+
+static void change_current_block_spin(void) {
+    if (current_block.current_spin == 3) {
+        current_block.current_spin = 0;
+        return;
+    }
+    current_block.current_spin++;
+    return;
+}
+
+static bool block_moved(void) {
+    return current_block.x != current_block.previous_x || current_block.y != current_block.previous_y || current_block.current_spin != current_block.previous_spin;
+}
+
+static void render_block(void) {
+    if (block_moved()) {
+        clear_block();
+        current_block.previous_x = current_block.x;
+        current_block.previous_y = current_block.y;
+        current_block.previous_spin = current_block.current_spin;
+        draw_block();
+    }
+}
+
+// static void quadriculado(void) {
+//     for (int y = 0; y < BOARD_HEIGHT; ++y) {
+//         for (int x = 0; x < BOARD_WIDTH; ++x) { 
+//             if (y % 2 == 0) {
+//                 if (x % 2 == 0) {
+//                     render_pixel(x, y, true);
+//                 } else {
+//                     render_pixel(x, y, false);
+//                 }
+//             } else {
+//                 if (x % 2 == 0) {
+//                     render_pixel(x, y, false);
+//                 } else {
+//                     render_pixel(x, y, true);
+//                 }
+//             }
+//         }
+//     }
+// }
+
+
+static void reset_to_previous(void) {
+    current_block.x = current_block.previous_x;
+    current_block.y = current_block.previous_y;
+    current_block.current_spin = current_block.previous_spin;
+}
+
+static uint8_t colided(void) {
+    spin s = current_block.spins[current_block.current_spin];
+    for (uint8_t i = 0; i < 4; i++) {
+        int x = current_block.x + s.coordinates[i].x;
+        int y = current_block.y + s.coordinates[i].y;
+        if (x >= BOARD_WIDTH || x < 0) {
+            return WALL;
+        }
+        if (y >= BOARD_HEIGHT) {
+            return BOTTOM;
+        }
+        if (board[x][y]) {
+            return BLOCK;
+        }
+    }
+    return NONE;
+}
+
+static void write_board(void) {
+    spin s = current_block.spins[current_block.current_spin];
+    for (uint8_t i = 0; i < 4; i++) {
+        board[current_block.x + s.coordinates[i].x][current_block.y + s.coordinates[i].y] = true;
+    }
+}
+
+static bool fall(void) {
+    if (timer_elapsed32(fall_timer) > FALL_DURATION) {
+        fall_timer = timer_read32();
+        current_block.y++;
+        return true;
+    }
+    return false;
+}
+
+static void setup(void) {
+    if (!initialized) {
+        current_block = j_block();
+        initialized = true;
+    }
+}
+
+static void movement(void) {
+    if (change_spin) {
+        change_current_block_spin();
+        change_spin = false;
+        return;
+    }
+    if (move_down) {
+        current_block.y++;
+        move_down = false;
+        return;
+    }
+    if (move_left) {
+        current_block.x--;
+        move_left = false;
+        return;
+    }
+    if (move_right) {
+        current_block.x++;
+        move_right = false;
+        return;
+    }
+}
+
+static void next_block_index(void) {
+    if (current_block_index == 6) {
+        current_block_index = 0;
+        return;
+    }
+    current_block_index++;
+    return;
+}
+
+static block next_block(void) {
+    next_block_index();
+    switch (current_block_index) {
+        case 0: return i_block();
+        case 1: return j_block();
+        case 2: return l_block();
+        case 3: return o_block();
+        case 4: return s_block();
+        case 5: return t_block();
+        case 6: return z_block();
+    }
+    return i_block();
+}
+
+static void clean_board(void) {
+    for (uint8_t x = 0; x < BOARD_WIDTH; x++) {
+        for (uint8_t y = 0; y < BOARD_HEIGHT; y++) {
+            board[x][y] = false;
+        }
+    }
+}
+
+static void clean_screen(void) {
+    for (uint8_t x = 0; x < 32; x++) {
+        for (uint8_t y = 0; y < 128; y++) {
+            oled_write_pixel(x, y, false);
+        }
+    }
+}
+
+static void copy_row(uint8_t y_from, uint8_t y_to) {
+    for (uint8_t i = 0; i < BOARD_WIDTH; i++) {
+        board[i][y_to] = board[i][y_from];
+        render_pixel(i, y_to, board[i][y_from]);
+    }
+}
+
+static bool completed_row(uint8_t y) {
+    for (uint8_t i = 0; i < BOARD_WIDTH; i++) {
+        if (!board[i][y]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+static void wipe_completed_row(void) {
+    uint8_t to_line = BOARD_HEIGHT - 1;
+    for (uint8_t i = BOARD_HEIGHT - 1; i > 0; i--) {
+        if (!completed_row(i)) {
+            copy_row(i, to_line);
+            to_line--;
+        }
+    }
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case KC_LSFT:
+            if (record->event.pressed) {
+                change_spin = true;
+                break;
             }
-        }
+        case KC_T:
+            if (record->event.pressed) {
+                move_right = true;
+                break;
+            }
+        case KC_R:
+            if (record->event.pressed) {
+                move_left = true;
+                break;
+            }
+        case KC_S:
+            if (record->event.pressed) {
+                move_down = true;
+                break;
+            }
     }
+    return true;
+}
+
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    return OLED_ROTATION_270;
 }
 
 static void render_tetris(void) {
-    quadriculado();
-    block b = i_block();
-    render_block(b);
-
+    // quadriculado();
+    setup();
+    if (fall()) {
+        switch (colided()) {
+            case BOTTOM:
+            case BLOCK:
+                reset_to_previous();
+                write_board();
+                wipe_completed_row();
+                current_block = next_block();
+                break;
+        }
+        if (colided() == BLOCK) {
+            clean_board();
+            clean_screen();
+        }
+        render_block();
+        return;
+    }
+    movement();
+    switch (colided()) {
+        case WALL:
+        case BOTTOM:
+        case BLOCK:
+            reset_to_previous();
+            break;
+    }
+    render_block();
 }
 
 bool oled_task_user(void) {
