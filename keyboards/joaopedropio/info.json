@@ -15,22 +15,32 @@
     },
     "matrix_pins": {
         "cols": [
-            "GP8",
-            "GP7",
-            "GP6",
-            "GP5",
-            "GP4"
+            "GP14",
+            "GP15",
+            "GP26",
+            "GP27",
+            "GP28"
         ],
         "rows": [
-            "GP27",
-            "GP26",
-            "GP15",
-            "GP14"
+            "GP5",
+            "GP6",
+            "GP7",
+            "GP8"
         ]
     },
     "diode_direction": "COL2ROW",
     "split": {
-        "soft_serial_pin": "GP1"
+        "enabled": true,
+        "soft_serial_pin": "GP1",
+        "transport": {
+            "protocol": "serial",
+            "sync": {
+                "indicators": true,
+                "layer_state": true,
+                "matrix_state": true,
+                "modifiers": true
+            }
+        }
     },
     "community_layouts": [
         "split_3x5_3"

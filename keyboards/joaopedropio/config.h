@@ -3,6 +3,8 @@
 
 #pragma once
 
+#define EE_HANDS
+
 /* SPI pins */
 #define SPI_DRIVER SPID1
 #define SPI_SCK_PIN GP10

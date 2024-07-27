@@ -8,4 +8,4 @@
 #include <qp.h>
 
 extern const uint32_t gfx_nyan_length;
-extern const uint8_t  gfx_nyan[1291758];
+extern const uint8_t  gfx_nyan[913710];
