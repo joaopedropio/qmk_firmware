@@ -93,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫          ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
     ┃    A    ┃    R    ┃    S    ┃    T    ┃    G    ┃          ┃    ~    ┃    [    ┃    ]    ┃    `    ┃    '    ┃
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫          ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
-    ┃    Z    ┃    X    ┃    C    ┃    D    ┃    V    ┃          ┃         ┃    -    ┃    _    ┃    =    ┃    +    ┃
+    ┃    Z    ┃    X    ┃    C    ┃    D    ┃    V    ┃          ┃    K    ┃    -    ┃    _    ┃    =    ┃    +    ┃
     ┗━━━━━━━━━┻━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫          ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┻━━━━━━━━━┛
                         ┃  ESC    ┃  Shift  ┃LT2/SPACE┃          ┃  MO(3)  ┃         ┃         ┃
                         ┗━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┛          ┗━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┛
@@ -101,29 +101,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
     [_PROGRAMMING] = LAYOUT_split_3x5_3(
-        LCTL(KC_Q),LCTL(KC_W),LCTL(KC_F),KC_WH_L,KC_WH_R,                 KC_DQUO, KC_LCBR, KC_RCBR, KC_BSLS, KC_PIPE,
-        LCTL(KC_A),LCTL(KC_R),LCTL(KC_S),KC_WH_D,KC_WH_U,                 KC_TILD, KC_LBRC, KC_RBRC, KC_GRV,  KC_QUOT,
-        LCTL(KC_Z),LCTL(KC_X),LCTL(KC_C),KC_D,LCTL(KC_V),                 _______, KC_MINS, KC_UNDS, KC_EQL,  KC_PLUS,
-                               _______, _______, _______,                 MO(_SYSTEM), _______, _______
+        LCTL(KC_Q),LCTL(KC_W),LCTL(KC_F),LCTL(KC_P),LCTL(KC_B),                 KC_DQUO,    KC_LCBR, KC_RCBR, KC_BSLS, KC_PIPE,
+        LCTL(KC_A),LCTL(KC_R),LCTL(KC_S),LCTL(KC_T),LCTL(KC_G),                 KC_TILD,    KC_LBRC, KC_RBRC, KC_GRV,  KC_QUOT,
+        LCTL(KC_Z),LCTL(KC_X),LCTL(KC_C),LCTL(KC_D),LCTL(KC_V),                 LCTL(KC_K), KC_MINS, KC_UNDS, KC_EQL,  KC_PLUS,
+                                     _______, _______, _______,                 MO(_SYSTEM), _______, _______
     ),
 
     /* System
     ┏━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┓          ┏━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┓
-    ┃   F1    ┃   F2    ┃   F3    ┃   F4    ┃  PRTSCR ┃          ┃  RESET  ┃         ┃         ┃ COLEMAK ┃  QWERTY ┃
+    ┃ COLEMAK ┃  QWERTY ┃         ┃         ┃  RESET  ┃          ┃  PRTSCR ┃   F1    ┃   F2    ┃   F3    ┃   F4    ┃
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫          ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
-    ┃   F5    ┃   F6    ┃   F7    ┃   F8    ┃         ┃          ┃         ┃         ┃         ┃         ┃         ┃
+    ┃         ┃         ┃         ┃         ┃         ┃          ┃         ┃   F5    ┃   F6    ┃   F7    ┃   F8    ┃
     ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫          ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫
-    ┃   F9    ┃   F10   ┃   F11   ┃   F12   ┃         ┃          ┃         ┃         ┃         ┃         ┃         ┃
+    ┃         ┃         ┃         ┃         ┃         ┃          ┃         ┃   F9    ┃   F10   ┃   F11   ┃   F12   ┃
     ┗━━━━━━━━━┻━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┫          ┣━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━┻━━━━━━━━━┛
                         ┃         ┃         ┃         ┃          ┃         ┃         ┃         ┃
                         ┗━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┛          ┗━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━┛
     */
 
 	[_SYSTEM] = LAYOUT_split_3x5_3(
-        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_PSCR,           QK_BOOT, _______, _______, TO(_QWERTY), TO(_COLEMAK_DMH),
-        KC_F5,   KC_F6,   KC_F7,   KC_F8,   _______,           _______, _______, _______, _______, _______,
-        KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______,           _______, _______, _______, _______, _______,
-                          _______, _______, _______,           _______, _______, _______
+        TO(_QWERTY), TO(_COLEMAK_DMH),_______, _______, QK_BOOT,        KC_PSCR, KC_F1,   KC_F2,   KC_F3,   KC_F4,
+        _______,     _______,         _______, _______, _______,        _______, KC_F5,   KC_F6,   KC_F7,   KC_F8,
+        _______,     _______,         _______, _______, _______,        _______, KC_F9,   KC_F10,  KC_F11,  KC_F12,
+                                      _______, _______, _______,        _______, _______, _______
     ),
 
     /*
@@ -190,6 +190,7 @@ combo_t key_combos[] = {
     [COMBO_LCIRCUMFLEX] = COMBO(pw_combo, KC_CIRC)
 };
 
+/*
 #include "matrix.h"
 #include OLED_FONT_H
 
@@ -478,6 +479,9 @@ void draw_bongocat(void) {
     }
 }
 
+*/
+
+/*
 #define FALL_DURATION 200 // how long each time the piece moves down in ms
 #define BOARD_WIDTH 8
 #define BOARD_HEIGHT 32
@@ -525,7 +529,7 @@ block current_block;
 bool change_spin = false;
 uint8_t current_block_index = 0;
 
-/* Direction */
+// Direction
 bool move_right = false;
 bool move_down = false;
 bool move_left = false;
@@ -1060,3 +1064,5 @@ bool oled_task_user(void) {
 
     return false;
 }
+
+*/
